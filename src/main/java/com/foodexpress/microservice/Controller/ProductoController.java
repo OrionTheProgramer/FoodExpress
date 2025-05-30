@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -58,6 +59,17 @@ public class ProductoController {
     @GetMapping("/bajo-stock")
     public List<Producto> ObtenerBajoStock() {
         return service.BajoStock();
+    }
+
+    /**
+     * GET /api/productos/filtrar-por-precio/{precio}.
+     *
+     * @param precio El precio con el que se desea filtrar.
+     * @return Lista de productos que cumplan con el precio.
+     */
+    @GetMapping("/filtrar-por-precio/{precio}")
+    public List<Producto> ObtenerPorPrecio(@PathVariable BigDecimal precio){
+        return service.FiltrarPorPrecio(precio);
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.foodexpress.microservice.Model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -23,7 +22,6 @@ public class Producto {
     // Identificador de los productos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Schema(description = "Identificador unico de los Productos", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 

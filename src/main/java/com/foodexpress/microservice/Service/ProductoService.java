@@ -1,9 +1,11 @@
 package com.foodexpress.microservice.Service;
 
+import com.foodexpress.microservice.Exception.Exceptions.ResourceNotFoundException;
 import com.foodexpress.microservice.Model.Producto;
 import com.foodexpress.microservice.Repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +31,11 @@ public class ProductoService {
      *
      * @param id ID del producto que se quiere obtener.
      * @return Producto encontrado.
-     * @exception RuntimeException Id no existente.
+     * @exception ResourceNotFoundException Id no existente.
      */
     public Producto ObtenerPorID(Long id){
-        Optional<Producto> optpro = repo.findById(id);
-        return optpro.orElseThrow(()-> new RuntimeException("Producto no encontrado por el id: "+id));
+        Optional<Producto> ProductoOPT = repo.findById(id);
+        return ProductoOPT.orElseThrow(()-> new ResourceNotFoundException("Producto no encontrado por el id: "+id));
     }
 
     /**
@@ -46,9 +48,19 @@ public class ProductoService {
     }
 
     /**
+     * Método que retrona una lista de productos con el precio deseado.
+     *
+     * @param precio Precio, con el que se desea filtrar.
+     * @return Lista de productos.
+     */
+    public List<Producto> FiltrarPorPrecio(BigDecimal precio){
+        return repo.findByPrecioLessThanEqual(precio);
+    }
+
+    /**
      * Método para crear un producto.
      *
-     * @param producto Datos del prodcuto que se creara.
+     * @param producto Datos del producto que se creara.
      * @return Producto creado.
      */
     public Producto CrearProducto(Producto producto){
@@ -56,7 +68,7 @@ public class ProductoService {
     }
 
     /**
-     * Método paara actualizar la informacion de un producto.
+     * Método para actualizar la información de un producto.
      *
      * @param id ID del producto que se planea actualizar.
      * @param datos Datos actualizados.
